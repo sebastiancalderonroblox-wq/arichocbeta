@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arichoc</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- LOGIN -->
+    <div class="contenedor" id="login">
+
+        <img src="logo.png" class="logo" alt="Logo Arichoc">
+
+        <h1>Iniciar sesión</h1>
+
+        <label>Correo electrónico</label>
+        <input type="email" id="email" placeholder="Tu@correo" autocomplete="email">
+        <span class="error" id="emailError"></span>
+
+        <label>Contraseña</label>
+        <div class="password-wrapper">
+            <input type="password" id="password" placeholder="Contraseña" autocomplete="current-password">
+            <button type="button" class="toggle-password" id="togglePassword" aria-label="Mostrar contraseña">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+        </div>
+        <span class="error" id="passwordError"></span>
+
+        <div class="login-options">
+            <label class="remember-me">
+                <input type="checkbox" id="rememberMe"> Recordarme
+            </label>
+            <a href="#" class="olvido">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button id="btnLogin" type="submit">Iniciar sesión</button>
+        <span class="error" id="loginError"></span>
+
+        <p>
+            ¿No tienes una cuenta?
+            <a href="#" onclick="mostrarCrearCuenta()">Créala</a>
+        </p>
+
+    </div>
+
+
+    <!-- CREAR CUENTA -->
+    <div class="contenedor oculto" id="crearCuenta">
+
+        <img src="logo.png" class="logo" alt="Logo Arichoc">
+
+        <h1>Crear cuenta</h1>
+
+        <label>Nombre</label>
+        <input type="text" id="regNombre" placeholder="Nombre" autocomplete="given-name">
+        <span class="error" id="regNombreError"></span>
+
+        <label>Apellido</label>
+        <input type="text" id="regApellido" placeholder="Apellido" autocomplete="family-name">
+        <span class="error" id="regApellidoError"></span>
+
+        <label>Correo electrónico</label>
+        <input type="email" id="regEmail" placeholder="name@gmail.com" autocomplete="email">
+        <span class="error" id="regEmailError"></span>
+
+        <label>Contraseña</label>
+        <div class="password-wrapper">
+            <input type="password" id="regPassword" placeholder="Contraseña" autocomplete="new-password">
+            <button type="button" class="toggle-password" id="toggleRegPassword" aria-label="Mostrar contraseña">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+        </div>
+        <div class="password-strength" id="passwordStrength"></div>
+        <span class="error" id="regPasswordError"></span>
+
+        <label>Confirmar contraseña</label>
+        <div class="password-wrapper">
+            <input type="password" id="regConfirmPassword" placeholder="Confirmar contraseña" autocomplete="new-password">
+            <button type="button" class="toggle-password" id="toggleConfirmPassword" aria-label="Mostrar contraseña">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+        </div>
+        <span class="error" id="regConfirmError"></span>
+
+        <button id="btnRegistrar" type="submit">Crear cuenta</button>
+        <span class="error" id="registerError"></span>
+
+        <p>
+            ¿Ya tienes una cuenta?
+            <a href="#" onclick="mostrarLogin()">Inicia sesión</a>
+        </p>
+
+    </div>
+
+
+<script src="script.js"></script>
+</body>
+
+</html>
