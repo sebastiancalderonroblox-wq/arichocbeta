@@ -9,31 +9,35 @@
 </head>
 
 <body>
-    <!-- HEADER -->
-    <header class="header">
-        <div class="header-container">
+    <main id="mainContent">
+    <!-- CABECERA -->
+    <header class="cabecera">
+        <div class="contenedor-cabecera">
             <div class="logo">
-                <img src="img/logo.png" alt="Arichoc Logo">
+                <img src="img/logo.png" alt="Logo Arichoc">
             </div>
 
-            <nav class="nav">
+            <nav class="navegacion">
                 <a href="#inicio">Inicio</a>
                 <a href="#meriendas">Meriendas</a>
                 <a href="#mesas-dulces">Mesas de dulces</a>
                 <a href="#detalles">Detalles</a>
-                <a href="#adicionales">Adicionales</a>
+                <a href="#contacto">Adicionales</a>
             </nav>
 
-            <div class="header-icons">
-                <button class="icon-btn search-btn">
+            <div class="iconos-cabecera">
+                <button class="boton-icono boton-buscar" aria-label="Buscar">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="8"></circle>
                         <path d="m21 21-4.35-4.35"></path>
                     </svg>
                 </button>
-                <div class="user-menu">
-                    <button class="icon-btn user-btn" id="userBtn">
+                <a href="login/login.html" class="boton-login" id="botonLoginHeader" style="display: none;">
+                    Iniciar sesión
+                </a>
+                <div class="menu-usuario" id="menuUsuario" style="display: none;">
+                    <button class="boton-icono boton-usuario" id="botonUsuario" aria-expanded="false" aria-haspopup="true" aria-controls="dropdownUsuario" aria-label="Menú de usuario">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="currentColor">
                             <path
@@ -41,21 +45,32 @@
                             </path>
                         </svg>
                     </button>
-                    <div class="user-dropdown" id="userDropdown">
-                        <div class="dropdown-header">
-                            <span id="dropdownUserName">Usuario</span>
-                            <span id="dropdownUserEmail" class="dropdown-email">email@ejemplo.com</span>
+                    <div class="dropdown-usuario" id="dropdownUsuario" role="menu">
+                        <div class="cabecera-dropdown">
+                            <span id="dropdownNombreUsuario">Usuario</span>
+                            <span id="dropdownEmailUsuario" class="email-dropdown">email@ejemplo.com</span>
                         </div>
-                        <hr class="dropdown-divider">
-                        <button class="dropdown-item" id="btnPerfil">
-                            <a href="login/login.html"></a>
+                        <hr class="divisor-dropdown">
+                        <button class="item-dropdown" id="botonPerfil" role="menuitem" tabindex="-1">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                Iniciar sesión
-                            </a>
+                            Mi perfil
+                        </button>
+                        <button class="item-dropdown" id="botonPedidos" role="menuitem" tabindex="-1">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                            Mis pedidos
+                        </button>
+                        <button class="item-dropdown" id="botonCambiarPassword" role="menuitem" tabindex="-1">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            Cambiar contraseña
+                        </button>
+                        <hr class="divisor-dropdown">
+                        <button class="item-dropdown cerrar-sesion" id="botonCerrarSesion" role="menuitem" tabindex="-1">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                            Cerrar sesión
                         </button>
                     </div>
                 </div>
-                <button class="icon-btn cart-btn">
+                <button class="boton-icono boton-carrito" aria-label="Carrito de compras">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2">
                         <circle cx="9" cy="21" r="1"></circle>
@@ -68,93 +83,43 @@
     </header>
 
     <!-- SECCIÓN BIENVENIDA -->
-    <section class="welcome-section">
+    <section class="seccion-bienvenida" id="inicio">
         <h1>BIENVENIDO</h1>
         <p id="usuario-nombre">Usuario</p>
     </section>
 
     <!-- SECCIÓN SORPRESA -->
-    <section class="surprise-section">
+    <section class="seccion-sorpresa" id="meriendas">
         <h2>¿Cómo quieres sorprender hoy?</h2>
-        <div class="products-grid">
-            <div class="product-card">
-                <img src="img/producto-1.jpg" alt="Detalle">
-                <h3>Detalle</h3>
-                <p class="price">$20.000</p>
-            </div>
-            <div class="product-card">
-                <img src="img/producto-2.jpg" alt="Detalle">
-                <h3>Detalle</h3>
-                <p class="price">$20.000</p>
-            </div>
-            <div class="product-card">
-                <img src="img/producto-3.jpg" alt="Detalle">
-                <h3>Detalle</h3>
-                <p class="price">$20.000</p>
-            </div>
-            <div class="product-card">
-                <img src="img/producto-4.jpg" alt="Detalle">
-                <h3>Detalle</h3>
-                <p class="price">$20.000</p>
-            </div>
-            <div class="product-card">
-                <img src="img/producto-5.jpg" alt="Detalle">
-                <h3>Detalle</h3>
-                <p class="price">$20.000</p>
-            </div>
-            <div class="product-card">
-                <img src="img/producto-6.jpg" alt="Detalle">
-                <h3>Detalle</h3>
-                <p class="price">$20.000</p>
-            </div>
-            <div class="product-card">
-                <img src="img/producto-7.jpg" alt="Detalle">
-                <h3>Detalle</h3>
-                <p class="price">$20.000</p>
-            </div>
-            <div class="product-card">
-                <img src="img/producto-8.jpg" alt="Detalle">
-                <h3>Detalle</h3>
-                <p class="price">$20.000</p>
-            </div>
-        </div>
+        <div class="cuadricula-productos" id="cuadricula-productos"></div>
     </section>
 
-    <!-- SECCIÓN MÁS VENDIDO -->
-    <section class="best-sellers-section">
-        <h2>Lo mas vendido</h2>
-        <div class="carousel-container">
-            <button class="carousel-btn prev" onclick="scrollCarousel(-1)">
+    <!-- SECCIÓN MESAS DE DULCES -->
+    <section class="seccion-mesas-dulces" id="mesas-dulces">
+        <h2>Mesas de Dulces</h2>
+        <div class="cuadricula-productos" id="cuadricula-mesas-dulces"></div>
+    </section>
+
+    <!-- SECCIÓN DETALLES -->
+    <section class="seccion-detalles" id="detalles">
+        <h2>Detalles</h2>
+        <div class="cuadricula-productos" id="cuadricula-detalles"></div>
+    </section>
+
+    <!-- SECCIÓN MÁS VENDIDOS -->
+    <section class="seccion-mas-vendidos">
+        <h2>Lo más vendido</h2>
+        <div class="contenedor-carrusel">
+            <button class="boton-carrusel anterior" onclick="desplazarCarrusel(-1)" aria-label="Anterior">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2">
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
             </button>
 
-            <div class="carousel" id="carousel">
-                <div class="carousel-item">
-                    <img src="img/producto-1.jpg" alt="Detalle">
-                    <h3>Detalle</h3>
-                    <p class="price">$20.000</p>
-                </div>
-                <div class="carousel-item">
-                    <img src="img/producto-2.jpg" alt="Detalle">
-                    <h3>Detalle</h3>
-                    <p class="price">$20.000</p>
-                </div>
-                <div class="carousel-item">
-                    <img src="img/producto-3.jpg" alt="Detalle">
-                    <h3>Detalle</h3>
-                    <p class="price">$20.000</p>
-                </div>
-                <div class="carousel-item">
-                    <img src="img/producto-4.jpg" alt="Detalle">
-                    <h3>Detalle</h3>
-                    <p class="price">$20.000</p>
-                </div>
-            </div>
+            <div class="carrusel" id="carrusel"></div>
 
-            <button class="carousel-btn next" onclick="scrollCarousel(1)">
+            <button class="boton-carrusel siguiente" onclick="desplazarCarrusel(1)" aria-label="Siguiente">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2">
                     <polyline points="9 18 15 12 9 6"></polyline>
@@ -163,52 +128,88 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section contactos">
+    <!-- PIE DE PÁGINA -->
+    <footer class="pie-pagina" id="contacto">
+        <div class="contenido-pie">
+            <div class="seccion-pie contactos">
                 <h3>Contactos</h3>
                 <h4>Dirección</h4>
                 <p>Calle 00A #00-00</p>
                 <p>Garzón-Huila</p>
             </div>
 
-            <div class="footer-section siguenos">
+            <div class="seccion-pie seguinos">
                 <h3>Síguenos en</h3>
-                <div class="social-links">
-                    <a href="#facebook" class="social-link facebook">
-                        <img src="img/facebook.png" width="32" height="32" viewBox="0 0 24 24">
+                <div class="enlaces-sociales">
+                    <a href="#facebook" class="enlace-social facebook" aria-label="Facebook">
+                        <img src="img/facebook.png" width="32" height="32" alt="">
                         <span>Facebook</span>
                     </a>
-                    <a href="#instagram" class="social-link instagram">
-                        <img src="img/instagram.png" width="32" height="32" viewBox="0 0 24 24">
+                    <a href="#instagram" class="enlace-social instagram" aria-label="Instagram">
+                        <img src="img/instagram.png" width="32" height="32" alt="">
                         <span>Instagram</span>
                     </a>
                 </div>
             </div>
 
-            <div class="footer-section escribenos">
-                <h3>Escribenos</h3>
-                <a href="#whatsapp" class="write-link whatsapp">
-                    <img src="img/whatsapp.webp" width="32" height="32" viewBox="0 0 24 24">
+            <div class="seccion-pie escribenos">
+                <h3>Escríbenos</h3>
+                <a href="#whatsapp" class="enlace-escribir whatsapp" aria-label="WhatsApp">
+                    <img src="img/whatsapp.webp" width="32" height="32" alt="">
                     <span>Whatsapp</span>
                 </a>
             </div>
         </div>
     </footer>
 
-    <!-- CHAT BOT BUTTON -->
-    <button class="chat-bot-btn" onclick="toggleChat()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-            <circle cx="12" cy="12" r="10" fill="#00BCD4"></circle>
-            <path d="M12 7c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5z" fill="white"></path>
-            <circle cx="13" cy="13" r="1.5" fill="#00BCD4"></circle>
-            <circle cx="11" cy="13" r="1.5" fill="#00BCD4"></circle>
-            <path d="M12 11h0" stroke="#00BCD4" stroke-width="1" stroke-linecap="round"></path>
-        </svg>
+    <!-- BOTÓN CHAT BOT -->
+    <button class="boton-chat-bot" id="botonChat" aria-label="Abrir chat">
+        <img src="img/chatbot.png" width="52" height="52" alt="Bot de chat">
     </button>
 
+<!-- MODAL DE BÚSQUEDA -->
+    <div class="modal-busqueda" id="searchModal" role="dialog" aria-modal="true" aria-labelledby="searchModalTitle">
+        <div class="contenido-busqueda">
+            <div class="cabecera-busqueda">
+                <div class="contenedor-campo-busqueda">
+                    <label for="searchInput" class="visualmente-oculto">Buscar productos</label>
+                    <input type="text" class="campo-busqueda" id="searchInput" placeholder="Buscar productos..." autofocus aria-label="Buscar productos">
+                    <button class="boton-cerrar" onclick="cerrarModalBusqueda()" aria-label="Cerrar búsqueda">✕</button>
+                </div>
+            </div>
+
+            <div class="cuerpo-busqueda">
+                <div class="barra-lateral-busqueda" role="navigation" aria-label="Categorías de búsqueda">
+                    <div class="titulo-barra-lateral">Categorías</div>
+                    <button class="elemento-barra-lateral activa" data-category="all" role="menuitem">Todas</button>
+                    <button class="elemento-barra-lateral" data-category="meriendas" role="menuitem">Meriendas</button>
+                    <button class="elemento-barra-lateral" data-category="mesas-dulces" role="menuitem">Mesas de dulces</button>
+                    <button class="elemento-barra-lateral" data-category="detalles" role="menuitem">Detalles</button>
+                    <button class="elemento-barra-lateral" data-category="adicionales" role="menuitem">Adicionales</button>
+                    
+                    <div class="titulo-barra-lateral titulo-barra-lateral--separado">Filtrar por precio</div>
+                    <div class="filtro-precio">
+                        <input type="range" min="0" max="230000" value="115000" id="priceRange" 
+                            aria-label="Filtrar por precio máximo">
+                        <div class="valor-precio">
+                            $ 0 - $ <span id="priceRangeValue">115.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="principal-busqueda">
+                    <div class="resultados-busqueda" role="list" aria-label="Resultados de búsqueda">
+                        <div class="cuadricula-resultados" id="searchResultsGrid" role="listbox"></div>
+                        <div class="sin-resultados" id="noResults" hidden>
+                            <p>No se encontraron productos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </main>
     <script src="js/scripts.js"></script>
 </body>
-
 </html>
