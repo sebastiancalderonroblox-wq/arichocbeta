@@ -575,30 +575,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Animación de aparición de elementos al scroll
-    function inicializarObservadorScroll() {
-        const opcionesObservador = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observador = new IntersectionObserver((entradas) => {
-            entradas.forEach(entrada => {
-                if (entrada.isIntersecting) {
-                    entrada.target.style.opacity = '1';
-                    entrada.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, opcionesObservador);
-
-        const tarjetas = document.querySelectorAll('.tarjeta-producto, .item-carrusel');
-        tarjetas.forEach(tarjeta => {
-            tarjeta.style.opacity = '0';
-            tarjeta.style.transform = 'translateY(20px)';
-            tarjeta.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observador.observe(tarjeta);
-        });
-    }
-
-    inicializarObservadorScroll();
 });
+
+// Animación de aparición de elementos al scroll
+function inicializarObservadorScroll() {
+    const opcionesObservador = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observador = new IntersectionObserver((entradas) => {
+        entradas.forEach(entrada => {
+            if (entrada.isIntersecting) {
+                entrada.target.style.opacity = '1';
+                entrada.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, opcionesObservador);
+
+    const tarjetas = document.querySelectorAll('.tarjeta-producto, .item-carrusel');
+    tarjetas.forEach(tarjeta => {
+        tarjeta.style.opacity = '0';
+        tarjeta.style.transform = 'translateY(20px)';
+        tarjeta.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observador.observe(tarjeta);
+    });
+}
+
+inicializarObservadorScroll();

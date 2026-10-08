@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personalizar Detalles</title>
+  <link rel="stylesheet" href="ventas.css">
+</head>
+<body>
+
+  <div class="contenedor">
+    <h2>Detalles</h2>
+
+      <div class="campo">
+        <label for="nombre_detalle">Nombre del detalle:</label>
+        <input type="text" id="nombre_detalle" required>
+      </div>
+
+      <div class="campo">
+        <label for="color">Color:</label>
+        <input type="text" id="color" required>
+      </div>
+
+      <div class="campo">
+        <label for="mensaje">Mensaje:</label>
+        <textarea id="mensaje" rows="3" required></textarea>
+      </div>
+
+      <div class="campo">
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" required>
+      </div>
+
+      <div class="campo">
+        <label for="stock">Stock:</label>
+        <input type="number" id="stock" required>
+      </div>
+
+      <button type="submit">Guardar</button>
+    </form>
+
+    <div class="resultado">
+      <h3>Detalles registrados:</h3>
+      <div id="lista-detalles"></div>
+    </div>
+  </div>
+
+  <script src="ventas.js"></script>
+</body>
+</html>
