@@ -5,211 +5,410 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arichoc - Chocolatería Detalles y Meriendas</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        arichoc: {
+                            caramel: '#d4a574',
+                            'caramel-dark': '#c49564',
+                            pink: '#ffb6d9',
+                            cyan: '#00BCD4',
+                            dark: '#333333',
+                            'dark-alt': '#2c2c2a',
+                            muted: '#666666',
+                            gray: '#999999',
+                            light: '#d9d9d9',
+                            border: '#e0e0e0',
+                            bg: '#f9f9f9',
+                            'bg-sidebar': '#faf9f7',
+                            'cream-light': '#fff9f5',
+                            cream: '#fff5f0',
+                            danger: '#dc3545'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            /* Tarjeta de producto generada dinámicamente por scripts.js */
+            .tarjeta-producto {
+                @apply bg-white border-[3px] border-arichoc-pink rounded-[15px] overflow-hidden p-[15px] text-center transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-[5px] hover:shadow-[0_8px_20px_rgba(255,182,217,0.3)] focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:outline-offset-2;
+            }
+            .tarjeta-producto img {
+                @apply w-full h-[150px] sm:h-[200px] object-cover rounded-[10px] mb-[15px];
+            }
+            .tarjeta-producto h3 {
+                @apply text-base font-semibold text-arichoc-dark mb-2;
+            }
+            .tarjeta-producto .precio {
+                @apply text-lg font-bold text-arichoc-muted;
+            }
+
+            /* Elemento del carrusel dinámico */
+            .item-carrusel {
+                @apply shrink-0 w-[180px] sm:w-[220px] bg-white border-[3px] border-arichoc-pink rounded-[15px] overflow-hidden p-[15px] text-center transition-transform duration-300 hover:-translate-y-[5px] [scroll-snap-align:start];
+            }
+            .item-carrusel img {
+                @apply w-full h-[150px] sm:h-[180px] object-cover rounded-[10px] mb-3;
+            }
+            .item-carrusel h3 {
+                @apply text-base font-semibold text-arichoc-dark mb-2;
+            }
+            .item-carrusel .precio {
+                @apply text-lg font-bold text-arichoc-muted;
+            }
+
+            /* Tarjetas de resultados de búsqueda dinámica */
+            .tarjeta-resultado {
+                @apply bg-white border border-arichoc-border rounded-xl p-4 text-center cursor-pointer transition-all duration-300 hover:border-arichoc-caramel hover:shadow-[0_2px_8px_rgba(212,165,116,0.1)] hover:-translate-y-0.5;
+            }
+            .imagen-resultado {
+                @apply w-full aspect-square bg-gradient-to-br from-[rgba(219,112,147,0.1)] to-[rgba(255,192,203,0.1)] rounded-lg mb-3 flex items-center justify-center text-[32px] overflow-hidden;
+            }
+            .imagen-resultado img {
+                @apply w-full h-full object-cover rounded-lg;
+            }
+            .nombre-resultado { 
+                @apply text-sm font-medium mb-2 text-arichoc-dark-alt;
+            }
+            .precio-resultado {
+                @apply text-[13px] text-arichoc-caramel font-semibold;
+            }
+
+            /* Animaciones */
+            .tarjeta-producto.fade-out {
+                animation: fadeOut 0.4s ease forwards;
+            }
+            .tarjeta-producto.fade-in {
+                animation: fadeIn 0.4s ease forwards;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body class="bg-arichoc-bg text-arichoc-dark font-sans m-0 p-0 box-border antialiased">
     <main id="mainContent">
-    <!-- CABECERA -->
-    <header class="cabecera">
-        <div class="contenedor-cabecera">
-            <div class="logo">
-                <img src="img/logo.png" alt="Logo Arichoc">
-            </div>
+        <!-- CABECERA -->
+        <header
+            class="cabecera bg-white shadow-[0_2px_8px_rgba(0,0,0,0.1)] sticky top-0 z-[100] border-b-[1.5px] border-black">
+            <div
+                class="contenedor-cabecera max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between px-5 py-2.5 md:py-0 gap-[15px] md:gap-10">
+                <div class="logo shrink-0">
+                    <img src="img/logo.png" alt="Logo Arichoc" class="h-[60px] md:h-[100px] object-contain">
+                </div>
 
-            <nav class="navegacion">
-                <a href="#inicio">Inicio</a>
-                <a href="#meriendas">Meriendas</a>
-                <a href="#mesas-dulces">Mesas de dulces</a>
-                <a href="#detalles">Detalles</a>
-                <a href="#contacto">Adicionales</a>
-            </nav>
+                <nav
+                    class="navegacion flex flex-wrap md:flex-nowrap gap-2.5 sm:gap-[15px] md:gap-[25px] flex-1 items-center justify-center">
+                    <a class="no-underline px-3 py-2 text-arichoc-dark hover:text-arichoc-caramel font-medium text-[11px] sm:text-xs md:text-sm transition-colors duration-300 ease-in-out focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:outline-offset-2"
+                        href="#inicio">Inicio</a>
+                    <a class="no-underline px-3 py-2 text-arichoc-dark hover:text-arichoc-caramel font-medium text-[11px] sm:text-xs md:text-sm transition-colors duration-300 ease-in-out focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:outline-offset-2"
+                        href="#meriendas">Meriendas</a>
+                    <a class="no-underline px-3 py-2 text-arichoc-dark hover:text-arichoc-caramel font-medium text-[11px] sm:text-xs md:text-sm transition-colors duration-300 ease-in-out focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:outline-offset-2"
+                        href="#mesas-dulces">Mesas de dulces</a>
+                    <a class="no-underline px-3 py-2 text-arichoc-dark hover:text-arichoc-caramel font-medium text-[11px] sm:text-xs md:text-sm transition-colors duration-300 ease-in-out focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:outline-offset-2"
+                        href="#detalles">Detalles</a>
+                    <a class="no-underline px-3 py-2 text-arichoc-dark hover:text-arichoc-caramel font-medium text-[11px] sm:text-xs md:text-sm transition-colors duration-300 ease-in-out focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:outline-offset-2"
+                        href="#contacto">Adicionales</a>
+                </nav>
 
-            <div class="iconos-cabecera">
-                <button class="boton-icono boton-buscar" aria-label="Buscar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.35-4.35"></path>
-                    </svg>
-                </button>
-                <a href="login/login.html" class="boton-login" id="botonLoginHeader" style="display: none;">
-                    Iniciar sesión
-                </a>
-                <div class="menu-usuario" id="menuUsuario" style="display: none;">
-                    <button class="boton-icono boton-usuario" id="botonUsuario" aria-expanded="false" aria-haspopup="true" aria-controls="dropdownUsuario" aria-label="Menú de usuario">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                            fill="currentColor">
-                            <path
-                                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z">
-                            </path>
+                <div class="iconos-cabecera flex items-center gap-5 shrink-0">
+                    <button
+                        class="boton-icono boton-buscar flex items-center justify-center w-10 h-10 rounded-full bg-transparent hover:bg-[#f0f0f0] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:outline-offset-2 cursor-pointer"
+                        aria-label="Buscar">
+                        <svg class="w-6 h-6 text-arichoc-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
                         </svg>
                     </button>
-                    <div class="dropdown-usuario" id="dropdownUsuario" role="menu">
-                        <div class="cabecera-dropdown">
-                            <span id="dropdownNombreUsuario">Usuario</span>
-                            <span id="dropdownEmailUsuario" class="email-dropdown">email@ejemplo.com</span>
+                    <a href="login/login.html"
+                        class="boton-login inline-flex items-center justify-center px-4 py-2 bg-arichoc-caramel hover:bg-arichoc-caramel-dark text-white no-underline font-medium text-sm rounded-[20px] transition duration-300 ease-in-out hover:-translate-y-px focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:outline-offset-2"
+                        id="botonLoginHeader" style="display: none;">
+                        Iniciar sesión
+                    </a>
+                    <div class="menu-usuario relative" id="menuUsuario" style="display: none;">
+                        <button
+                            class="boton-icono boton-usuario flex items-center justify-center w-10 h-10 rounded-full bg-arichoc-light hover:bg-[#cacaca] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:outline-offset-2 cursor-pointer"
+                            id="botonUsuario" aria-expanded="false" aria-haspopup="true" aria-controls="dropdownUsuario"
+                            aria-label="Menú de usuario">
+                            <svg class="w-6 h-6 text-arichoc-dark" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="dropdown-usuario absolute top-[calc(100%+10px)] right-0 bg-white rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.12)] border border-[#eee] min-w-[220px] opacity-0 invisible -translate-y-2.5 transition-all duration-200 ease-in-out z-[100] [&.mostrar]:opacity-100 [&.mostrar]:visible [&.mostrar]:translate-y-0"
+                            id="dropdownUsuario" role="menu">
+                            <div class="cabecera-dropdown p-4 border-b border-[#eee]">
+                                <span id="dropdownNombreUsuario"
+                                    class="block font-semibold text-sm text-arichoc-dark">Usuario</span>
+                                <span id="dropdownEmailUsuario"
+                                    class="email-dropdown block text-xs text-[#888] mt-1">email@ejemplo.com</span>
+                            </div>
+                            <hr class="divisor-dropdown border-0 border-t border-[#eee] my-2">
+                            <button
+                                class="item-dropdown flex items-center gap-3 w-full px-4 py-3 bg-transparent border-none cursor-pointer text-sm text-arichoc-dark text-left transition-colors duration-200 hover:bg-arichoc-bg focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:-outline-offset-2"
+                                id="botonPerfil" role="menuitem" tabindex="-1">
+                                <svg class="shrink-0 text-[#888]" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                Mi perfil
+                            </button>
+                            <button
+                                class="item-dropdown flex items-center gap-3 w-full px-4 py-3 bg-transparent border-none cursor-pointer text-sm text-arichoc-dark text-left transition-colors duration-200 hover:bg-arichoc-bg focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:-outline-offset-2"
+                                id="botonPedidos" role="menuitem" tabindex="-1">
+                                <svg class="shrink-0 text-[#888]" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                </svg>
+                                Mis pedidos
+                            </button>
+                            <button
+                                class="item-dropdown flex items-center gap-3 w-full px-4 py-3 bg-transparent border-none cursor-pointer text-sm text-arichoc-dark text-left transition-colors duration-200 hover:bg-arichoc-bg focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:-outline-offset-2"
+                                id="botonCambiarPassword" role="menuitem" tabindex="-1">
+                                <svg class="shrink-0 text-[#888]" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                </svg>
+                                Cambiar contraseña
+                            </button>
+                            <hr class="divisor-dropdown border-0 border-t border-[#eee] my-2">
+                            <button
+                                class="item-dropdown cerrar-sesion flex items-center gap-3 w-full px-4 py-3 bg-transparent border-none cursor-pointer text-sm text-arichoc-danger text-left transition-colors duration-200 hover:bg-[#fff5f5] focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:-outline-offset-2"
+                                id="botonCerrarSesion" role="menuitem" tabindex="-1">
+                                <svg class="shrink-0 text-[#888]" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16 17 21 12 16 7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                                Cerrar sesión
+                            </button>
                         </div>
-                        <hr class="divisor-dropdown">
-                        <button class="item-dropdown" id="botonPerfil" role="menuitem" tabindex="-1">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                            Mi perfil
-                        </button>
-                        <button class="item-dropdown" id="botonPedidos" role="menuitem" tabindex="-1">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></path><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                            Mis pedidos
-                        </button>
-                        <button class="item-dropdown" id="botonCambiarPassword" role="menuitem" tabindex="-1">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                            Cambiar contraseña
-                        </button>
-                        <hr class="divisor-dropdown">
-                        <button class="item-dropdown cerrar-sesion" id="botonCerrarSesion" role="menuitem" tabindex="-1">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                            Cerrar sesión
-                        </button>
                     </div>
+                    <button
+                        class="boton-icono boton-carrito flex items-center justify-center w-10 h-10 rounded-full bg-transparent hover:bg-[#f0f0f0] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:outline-offset-2 cursor-pointer"
+                        aria-label="Carrito de compras">
+                        <svg class="w-7 h-7 text-arichoc-dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                    </button>
                 </div>
-                <button class="boton-icono boton-carrito" aria-label="Carrito de compras">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </div>
+        </header>
+
+        <!-- SECCIÓN BIENVENIDA -->
+        <section
+            class="seccion-bienvenida text-center py-10 px-5 bg-gradient-to-br from-arichoc-cream to-arichoc-cream-light"
+            id="inicio">
+            <h1 class="text-2xl md:text-[32px] font-semibold text-arichoc-dark mb-1 leading-tight">BIENVENIDO</h1>
+            <p id="usuario-nombre" class="text-lg text-arichoc-muted font-normal">Usuario</p>
+        </section>
+
+        <!-- SECCIÓN SORPRESA -->
+        <section class="seccion-sorpresa max-w-[1200px] my-[60px] mx-auto px-5" id="meriendas">
+            <h2 class="text-xl md:text-2xl font-semibold text-arichoc-dark mb-[30px] text-center">¿Cómo quieres
+                sorprender hoy?</h2>
+            <div class="cuadricula-productos grid grid-cols-1 sm:grid-cols-2 md:[grid-template-columns:repeat(auto-fit,minmax(220px,220px))] gap-[15px] md:gap-5 mb-[60px] justify-center"
+                id="cuadricula-productos"></div>
+        </section>
+
+        <!-- SECCIÓN MESAS DE DULCES -->
+        <section class="seccion-mesas-dulces max-w-[1200px] my-[60px] mx-auto px-5" id="mesas-dulces">
+            <h2 class="text-xl md:text-2xl font-semibold text-arichoc-dark mb-[30px] text-center">Mesas de Dulces</h2>
+            <div class="cuadricula-productos grid grid-cols-1 sm:grid-cols-2 md:[grid-template-columns:repeat(auto-fit,minmax(220px,220px))] gap-[15px] md:gap-5 mb-[60px] justify-center"
+                id="cuadricula-mesas-dulces"></div>
+        </section>
+
+        <!-- SECCIÓN DETALLES -->
+        <section class="seccion-detalles max-w-[1200px] my-[60px] mx-auto px-5" id="detalles">
+            <h2 class="text-xl md:text-2xl font-semibold text-arichoc-dark mb-[30px] text-center">Detalles</h2>
+            <div class="cuadricula-productos grid grid-cols-1 sm:grid-cols-2 md:[grid-template-columns:repeat(auto-fit,minmax(220px,220px))] gap-[15px] md:gap-5 mb-[60px] justify-center"
+                id="cuadricula-detalles"></div>
+        </section>
+
+        <!-- SECCIÓN MÁS VENDIDOS -->
+        <section class="seccion-mas-vendidos max-w-[1200px] mt-[60px] mb-20 mx-auto px-5">
+            <h2 class="text-xl md:text-2xl font-semibold text-arichoc-dark mb-[30px] text-center">Lo más vendido</h2>
+            <div class="contenedor-carrusel flex items-center gap-5 relative">
+                <button
+                    class="boton-carrusel anterior bg-transparent border-none cursor-pointer p-2.5 flex items-center justify-center transition-opacity duration-300 hover:opacity-70 focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:outline-offset-2 shrink-0"
+                    onclick="desplazarCarrusel(-1)" aria-label="Anterior">
+                    <svg class="w-8 h-8 md:w-10 md:h-10 text-arichoc-dark" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+
+                <div class="carrusel flex md:justify-center gap-[15px] md:gap-5 overflow-x-auto scroll-smooth flex-1 py-2.5 [scroll-snap-type:x_mandatory] [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-track]:bg-[#f1f1f1] [&::-webkit-scrollbar-thumb]:bg-[#ddd] [&::-webkit-scrollbar-thumb]:rounded-sm"
+                    id="carrusel"></div>
+
+                <button
+                    class="boton-carrusel siguiente bg-transparent border-none cursor-pointer p-2.5 flex items-center justify-center transition-opacity duration-300 hover:opacity-70 focus-visible:outline-2 focus-visible:outline-arichoc-caramel focus-visible:outline-offset-2 shrink-0"
+                    onclick="desplazarCarrusel(1)" aria-label="Siguiente">
+                    <svg class="w-8 h-8 md:w-10 md:h-10 text-arichoc-dark" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
                 </button>
             </div>
-        </div>
-    </header>
+        </section>
 
-    <!-- SECCIÓN BIENVENIDA -->
-    <section class="seccion-bienvenida" id="inicio">
-        <h1>BIENVENIDO</h1>
-        <p id="usuario-nombre">Usuario</p>
-    </section>
-
-    <!-- SECCIÓN SORPRESA -->
-    <section class="seccion-sorpresa" id="meriendas">
-        <h2>¿Cómo quieres sorprender hoy?</h2>
-        <div class="cuadricula-productos" id="cuadricula-productos"></div>
-    </section>
-
-    <!-- SECCIÓN MESAS DE DULCES -->
-    <section class="seccion-mesas-dulces" id="mesas-dulces">
-        <h2>Mesas de Dulces</h2>
-        <div class="cuadricula-productos" id="cuadricula-mesas-dulces"></div>
-    </section>
-
-    <!-- SECCIÓN DETALLES -->
-    <section class="seccion-detalles" id="detalles">
-        <h2>Detalles</h2>
-        <div class="cuadricula-productos" id="cuadricula-detalles"></div>
-    </section>
-
-    <!-- SECCIÓN MÁS VENDIDOS -->
-    <section class="seccion-mas-vendidos">
-        <h2>Lo más vendido</h2>
-        <div class="contenedor-carrusel">
-            <button class="boton-carrusel anterior" onclick="desplazarCarrusel(-1)" aria-label="Anterior">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-            </button>
-
-            <div class="carrusel" id="carrusel"></div>
-
-            <button class="boton-carrusel siguiente" onclick="desplazarCarrusel(1)" aria-label="Siguiente">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-            </button>
-        </div>
-    </section>
-
-    <!-- PIE DE PÁGINA -->
-    <footer class="pie-pagina" id="contacto">
-        <div class="contenido-pie">
-            <div class="seccion-pie contactos">
-                <h3>Contactos</h3>
-                <h4>Dirección</h4>
-                <p>Calle 00A #00-00</p>
-                <p>Garzón-Huila</p>
-            </div>
-
-            <div class="seccion-pie seguinos">
-                <h3>Síguenos en</h3>
-                <div class="enlaces-sociales">
-                    <a href="#facebook" class="enlace-social facebook" aria-label="Facebook">
-                        <img src="img/facebook.png" width="32" height="32" alt="">
-                        <span>Facebook</span>
-                    </a>
-                    <a href="#instagram" class="enlace-social instagram" aria-label="Instagram">
-                        <img src="img/instagram.png" width="32" height="32" alt="">
-                        <span>Instagram</span>
-                    </a>
+        <!-- PIE DE PÁGINA -->
+        <footer class="pie-pagina bg-white border-t border-[#eee] pt-[50px] px-5 pb-[30px] mt-[60px]" id="contacto">
+            <div
+                class="contenido-pie max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-[30px] sm:gap-10 md:gap-[60px]">
+                <div class="seccion-pie contactos">
+                    <h3 class="text-base md:text-lg font-semibold text-arichoc-dark mb-5">Contactos</h3>
+                    <h4 class="text-sm font-semibold text-arichoc-dark mt-[15px] mb-2">Dirección</h4>
+                    <p class="text-sm text-arichoc-muted leading-[1.6]">Calle 00A #00-00</p>
+                    <p class="text-sm text-arichoc-muted leading-[1.6]">Garzón-Huila</p>
                 </div>
-            </div>
 
-            <div class="seccion-pie escribenos">
-                <h3>Escríbenos</h3>
-                <a href="#whatsapp" class="enlace-escribir whatsapp" aria-label="WhatsApp">
-                    <img src="img/whatsapp.webp" width="32" height="32" alt="">
-                    <span>Whatsapp</span>
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- BOTÓN CHAT BOT -->
-    <button class="boton-chat-bot" id="botonChat" aria-label="Abrir chat">
-        <img src="img/chatbot.png" width="52" height="52" alt="Bot de chat">
-    </button>
-
-<!-- MODAL DE BÚSQUEDA -->
-    <div class="modal-busqueda" id="searchModal" role="dialog" aria-modal="true" aria-labelledby="searchModalTitle">
-        <div class="contenido-busqueda">
-            <div class="cabecera-busqueda">
-                <div class="contenedor-campo-busqueda">
-                    <label for="searchInput" class="visualmente-oculto">Buscar productos</label>
-                    <input type="text" class="campo-busqueda" id="searchInput" placeholder="Buscar productos..." autofocus aria-label="Buscar productos">
-                    <button class="boton-cerrar" onclick="cerrarModalBusqueda()" aria-label="Cerrar búsqueda">✕</button>
-                </div>
-            </div>
-
-            <div class="cuerpo-busqueda">
-                <div class="barra-lateral-busqueda" role="navigation" aria-label="Categorías de búsqueda">
-                    <div class="titulo-barra-lateral">Categorías</div>
-                    <button class="elemento-barra-lateral activa" data-category="all" role="menuitem">Todas</button>
-                    <button class="elemento-barra-lateral" data-category="meriendas" role="menuitem">Meriendas</button>
-                    <button class="elemento-barra-lateral" data-category="mesas-dulces" role="menuitem">Mesas de dulces</button>
-                    <button class="elemento-barra-lateral" data-category="detalles" role="menuitem">Detalles</button>
-                    <button class="elemento-barra-lateral" data-category="adicionales" role="menuitem">Adicionales</button>
-                    
-                    <div class="titulo-barra-lateral titulo-barra-lateral--separado">Filtrar por precio</div>
-                    <div class="filtro-precio">
-                        <input type="range" min="0" max="230000" value="115000" id="priceRange" 
-                            aria-label="Filtrar por precio máximo">
-                        <div class="valor-precio">
-                            $ 0 - $ <span id="priceRangeValue">115.000</span>
-                        </div>
+                <div class="seccion-pie seguinos">
+                    <h3 class="text-base md:text-lg font-semibold text-arichoc-dark mb-5">Síguenos en</h3>
+                    <div class="enlaces-sociales flex flex-col gap-[15px]">
+                        <a href="#facebook"
+                            class="enlace-social facebook flex items-center gap-3 no-underline text-arichoc-dark font-medium transition-transform duration-300 hover:translate-x-[5px]"
+                            aria-label="Facebook">
+                            <img src="img/facebook.png" class="w-8 h-8 shrink-0" alt="">
+                            <span>Facebook</span>
+                        </a>
+                        <a href="#instagram"
+                            class="enlace-social instagram flex items-center gap-3 no-underline text-arichoc-dark font-medium transition-transform duration-300 hover:translate-x-[5px]"
+                            aria-label="Instagram">
+                            <img src="img/instagram.png" class="w-8 h-8 shrink-0" alt="">
+                            <span>Instagram</span>
+                        </a>
                     </div>
                 </div>
 
-                <div class="principal-busqueda">
-                    <div class="resultados-busqueda" role="list" aria-label="Resultados de búsqueda">
-                        <div class="cuadricula-resultados" id="searchResultsGrid" role="listbox"></div>
-                        <div class="sin-resultados" id="noResults" hidden>
-                            <p>No se encontraron productos</p>
+                <div class="seccion-pie escribenos">
+                    <h3 class="text-base md:text-lg font-semibold text-arichoc-dark mb-5">Escríbenos</h3>
+                    <a href="#whatsapp"
+                        class="enlace-escribir whatsapp flex items-center gap-3 no-underline text-arichoc-dark font-medium text-sm mt-[15px] transition-transform duration-300 hover:translate-x-[5px]"
+                        aria-label="WhatsApp">
+                        <img src="img/whatsapp.webp" class="w-8 h-8 shrink-0" alt="">
+                        <span>Whatsapp</span>
+                    </a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- BOTÓN CHAT BOT -->
+        <button
+            class="boton-chat-bot fixed bottom-5 right-5 md:bottom-[30px] md:right-[30px] bg-arichoc-cyan w-[50px] h-[50px] md:w-[60px] md:h-[60px] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(0,188,212,0.4)] hover:shadow-[0_6px_16px_rgba(0,188,212,0.6)] hover:scale-110 transition duration-300 z-[1000] cursor-pointer border-none focus-visible:outline-2 focus-visible:outline-arichoc-cyan focus-visible:outline-offset-2"
+            id="botonChat" aria-label="Abrir chat">
+            <img src="img/chatbot.png" class="w-8 h-8 md:w-[52px] md:h-[52px]" alt="Bot de chat">
+        </button>
+
+        <!-- MODAL DE BÚSQUEDA -->
+        <div class="modal-busqueda fixed inset-0 bg-black/50 z-[200] flex items-center justify-center p-4 transition-[opacity,visibility] duration-400 [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] opacity-0 invisible [&.activa]:opacity-100 [&.activa]:visible"
+            id="searchModal" role="dialog" aria-modal="true" aria-labelledby="searchModalTitle">
+            <div
+                class="contenido-busqueda flex-1 flex flex-col bg-white rounded-2xl max-h-[90vh] w-full max-w-[1000px] overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.15)] translate-y-5 opacity-0 transition-all duration-400 [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] [.modal-busqueda.activa_&]:translate-y-0 [.modal-busqueda.activa_&]:opacity-100">
+                <div class="cabecera-busqueda p-6 border-b border-arichoc-border shrink-0">
+                    <div class="contenedor-campo-busqueda flex gap-2 items-center">
+                        <label for="searchInput" class="visualmente-oculto sr-only">Buscar productos</label>
+                        <input type="text"
+                            class="campo-busqueda flex-1 px-4 py-3 border border-[#d0d0d0] rounded-lg text-base sm:text-sm bg-white transition duration-300 focus:outline-none focus:border-arichoc-caramel focus:ring-4 focus:ring-arichoc-caramel/10"
+                            id="searchInput" placeholder="Buscar productos..." autofocus aria-label="Buscar productos">
+                        <button
+                            class="boton-cerrar w-9 h-9 border-none bg-transparent cursor-pointer text-xl flex items-center justify-center text-arichoc-gray hover:text-arichoc-dark-alt hover:bg-[#f0f0f0] transition-colors duration-300 rounded-lg"
+                            onclick="cerrarModalBusqueda()" aria-label="Cerrar búsqueda">✕</button>
+                    </div>
+                </div>
+
+                <div class="cuerpo-busqueda flex flex-col md:flex-row flex-1 overflow-hidden min-h-0">
+                    <div class="barra-lateral-busqueda w-full md:w-[200px] lg:w-[240px] md:min-w-[200px] lg:min-w-[240px] bg-arichoc-bg-sidebar border-b md:border-b-0 md:border-r border-arichoc-border py-4 lg:py-6 shrink-0 overflow-y-auto max-h-[180px] sm:max-h-[200px] md:max-h-full"
+                        role="navigation" aria-label="Categorías de búsqueda">
+                        <div
+                            class="titulo-barra-lateral text-xs font-semibold text-arichoc-gray px-4 lg:px-6 mb-4 uppercase tracking-[0.5px]">
+                            Categorías</div>
+                        <button
+                            class="elemento-barra-lateral activa w-full text-left py-2 md:py-2.5 lg:py-3 px-4 lg:px-6 cursor-pointer text-arichoc-dark-alt text-[13px] lg:text-sm transition-colors duration-200 border-none bg-transparent hover:bg-arichoc-caramel/10 [&.activa]:bg-arichoc-caramel/20 [&.activa]:border-l-[3px] [&.activa]:border-arichoc-caramel [&.activa]:pl-[calc(1rem-3px)] lg:[&.activa]:pl-[calc(1.5rem-3px)] [&.activa]:font-medium"
+                            data-category="all" role="menuitem">Todas</button>
+                        <button
+                            class="elemento-barra-lateral w-full text-left py-2 md:py-2.5 lg:py-3 px-4 lg:px-6 cursor-pointer text-arichoc-dark-alt text-[13px] lg:text-sm transition-colors duration-200 border-none bg-transparent hover:bg-arichoc-caramel/10 [&.activa]:bg-arichoc-caramel/20 [&.activa]:border-l-[3px] [&.activa]:border-arichoc-caramel [&.activa]:pl-[calc(1rem-3px)] lg:[&.activa]:pl-[calc(1.5rem-3px)] [&.activa]:font-medium"
+                            data-category="meriendas" role="menuitem">Meriendas</button>
+                        <button
+                            class="elemento-barra-lateral w-full text-left py-2 md:py-2.5 lg:py-3 px-4 lg:px-6 cursor-pointer text-arichoc-dark-alt text-[13px] lg:text-sm transition-colors duration-200 border-none bg-transparent hover:bg-arichoc-caramel/10 [&.activa]:bg-arichoc-caramel/20 [&.activa]:border-l-[3px] [&.activa]:border-arichoc-caramel [&.activa]:pl-[calc(1rem-3px)] lg:[&.activa]:pl-[calc(1.5rem-3px)] [&.activa]:font-medium"
+                            data-category="mesas-dulces" role="menuitem">Mesas de
+                            dulces</button>
+                        <button
+                            class="elemento-barra-lateral w-full text-left py-2 md:py-2.5 lg:py-3 px-4 lg:px-6 cursor-pointer text-arichoc-dark-alt text-[13px] lg:text-sm transition-colors duration-200 border-none bg-transparent hover:bg-arichoc-caramel/10 [&.activa]:bg-arichoc-caramel/20 [&.activa]:border-l-[3px] [&.activa]:border-arichoc-caramel [&.activa]:pl-[calc(1rem-3px)] lg:[&.activa]:pl-[calc(1.5rem-3px)] [&.activa]:font-medium"
+                            data-category="detalles" role="menuitem">Detalles</button>
+                        <button
+                            class="elemento-barra-lateral w-full text-left py-2 md:py-2.5 lg:py-3 px-4 lg:px-6 cursor-pointer text-arichoc-dark-alt text-[13px] lg:text-sm transition-colors duration-200 border-none bg-transparent hover:bg-arichoc-caramel/10 [&.activa]:bg-arichoc-caramel/20 [&.activa]:border-l-[3px] [&.activa]:border-arichoc-caramel [&.activa]:pl-[calc(1rem-3px)] lg:[&.activa]:pl-[calc(1.5rem-3px)] [&.activa]:font-medium"
+                            data-category="adicionales" role="menuitem">Adicionales</button>
+
+                        <div
+                            class="titulo-barra-lateral titulo-barra-lateral--separado text-xs font-semibold text-arichoc-gray px-4 lg:px-6 mb-4 mt-8 uppercase tracking-[0.5px]">
+                            Filtrar por precio</div>
+                        <div class="filtro-precio px-4 lg:px-6 mt-4">
+                            <input type="range" min="0" max="230000" value="115000" id="priceRange"
+                                class="w-full cursor-pointer accent-arichoc-caramel"
+                                aria-label="Filtrar por precio máximo">
+                            <div class="valor-precio text-xs text-arichoc-gray mt-2 text-center">
+                                $ 0 - $ <span id="priceRangeValue">115.000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="principal-busqueda flex-1 flex flex-col min-w-0 overflow-hidden">
+                        <div class="resultados-busqueda flex-1 p-6 overflow-y-auto min-h-0" role="list"
+                            aria-label="Resultados de búsqueda">
+                            <div class="cuadricula-resultados grid grid-cols-1 sm:grid-cols-2 md:[grid-template-columns:repeat(auto-fill,minmax(160px,1fr))] gap-6"
+                                id="searchResultsGrid" role="listbox"></div>
+                            <div class="sin-resultados text-center p-12 text-arichoc-gray" id="noResults" hidden>
+                                <p>No se encontraron productos</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
     </main>
     <script src="js/scripts.js"></script>
 </body>
+
 </html>
