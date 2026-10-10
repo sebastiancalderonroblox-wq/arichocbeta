@@ -1,0 +1,101 @@
+    <!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arichoc</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Colores de tu CSS
+                        primary: '#d4a574',     // Dorado / Acento principal y hovers
+                        dark: '#333333',        // Botones oscuros y texto principal
+                        muted: '#666666',       // Texto secundario e informativo
+                        'border-custom': '#777777', // Borde gris de inputs
+                        'light-gray': '#eeeeee',// Barra de fortaleza / Divisiones
+                        error: '#dc3545',       // Inputs inválidos y errores
+                        success: '#28a745',     // Inputs válidos
+                    },
+                    fontaFamily: {
+                        sans: ['Arial', 'sans-serif'],
+                        mono: ["JetBrains Mono", 'monospace'],
+                        playfair: ["Playfair Display", 'serif'],
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- LOGIN -->
+
+    <!-- RECUPERAR CONTRASEÑA -->
+    <div class="w-50 m-100 p-px-7 flex flex-col justify-content-center min-h-screen items-center max-w-px-1200">
+
+        <img src="../login/logo.png"  class="logo w-32 h-32 h-px-7 object-contain  place-items-center translate-x-115"alt="Logo Arichoc" >
+        <h1 class="text-4xl font-bold  mb-4 place-items-center translate-x-15">Recuperar contraseña</h1>
+
+        <!-- Paso 1: Verificar email -->
+        <div id="pasoEmail">
+            <p class="info-cambio translate-x-10 font-playfair">Ingresa tu email para verificar tu cuenta</p>
+
+            <label for="recEmail">Correo electrónico</label>
+            <input class="text-dark text-sm gap-x-10 border border-custom rounded-md py-2 px-4 w-full px-4 mt-1 focus:outline-none focus:ring-2 focus:ring-primary"
+                type="email" id="recEmail" placeholder="Tu@correo" autocomplete="email"
+                aria-describedby="recEmailError" required>
+            <span class="error" id="recEmailError" aria-live="polite"></span>
+
+            <button id="btnVerificarEmail" type="button" class=" bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded-md  hover:bg-gray-500 mt-4 text-dark text-sm gap-x-10 mt-4 text-dark text-sm gap-x-10 items-center translate-x-20  ">Verificar cuenta</button>
+            <span class="error" id="recuperarError" aria-live="assertive"></span>
+        </div>
+
+        <!-- Paso 2: Nueva contraseña (se muestra si el email existe) -->
+        <div id="pasoNuevaPassword" class="oculto">
+            <p class="info-cambio">Cuenta verificada. Ingresa tu nueva contraseña</p>
+
+            <label for="recNuevaPassword">Nueva contraseña</label>
+            <div class="contenedor-password">
+                <input type="password" id="recNuevaPassword" placeholder="Nueva contraseña" autocomplete="new-password"
+                    aria-describedby="recNuevaPasswordError" required>
+                <button type="button" class="alternar-password" id="toggleRecNuevaPassword"
+                    aria-label="Mostrar contraseña">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </button>
+            </div>
+            <div class="fortaleza-password" id="passwordStrengthRecuperar" aria-live="polite"></div>
+            <span class="error" id="recNuevaPasswordError" aria-live="polite"></span>
+
+            <label for="recConfirmarPassword">Confirmar nueva contraseña</label>
+            <div class="contenedor-password">
+                <input type="password" id="recConfirmarPassword" placeholder="Confirmar nueva contraseña"
+                    autocomplete="new-password" aria-describedby="recConfirmarPasswordError" required>
+                <button type="button" class="alternar-password" id="toggleRecConfirmarPassword"
+                    aria-label="Mostrar contraseña">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </button>
+            </div>
+            <span class="error" id="recConfirmarPasswordError" aria-live="polite"></span>
+
+            <button id="btnActualizarPassword" type="button">Actualizar contraseña</button>
+            <span class="error" id="actualizarPasswordError" aria-live="assertive"></span>
+        </div>
+
+        <p>
+            <a href="#" onclick="mostrarLogin()">Volver al login</a>
+        </p>
+    </div>
+    <script src="script.js"></script>
+</body>

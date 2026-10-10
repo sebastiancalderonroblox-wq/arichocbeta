@@ -5,49 +5,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arichoc</title>
-    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Colores de tu CSS
+                        primary: '#d4a574',     // Dorado / Acento principal y hovers
+                        dark: '#333333',        // Botones oscuros y texto principal
+                        muted: '#666666',       // Texto secundario e informativo
+                        'border-custom': '#777777', // Borde gris de inputs
+                        'light-gray': '#eeeeee',// Barra de fortaleza / Divisiones
+                        error: '#dc3545',       // Inputs inválidos y errores
+                        success: '#28a745',     // Inputs válidos
+                    },
+                },
+            },
+        }
+    </script>
 </head>
 
 <body>
 
     <!-- LOGIN -->
-    <form class="contenedor" id="login" novalidate>
+    <div class="w-50 m-100 p-px-7 flex flex-col justify-content-center min-h-screen items-center max-w-px-1200">
 
-        <img src="logo.png" class="logo" alt="Logo Arichoc">
+        <form>
 
-        <h1>Iniciar sesión</h1>
+            <img src="logo.png" class="logo w-32 h-32 h-px-7 object-contain  place-items-center translate-x-20" alt="Logo Arichoc">
 
-        <label for="email">Correo electrónico</label>
-        <input type="email" id="email" placeholder="Tu@correo" autocomplete="email" aria-describedby="emailError" required>
-        <span class="error" id="emailError" aria-live="polite"></span>
+            <h1 class="text-4xl font-bold  mb-4 place-items-center translate-x-10 ">Iniciar sesión</h1>
 
-        <label for="password">Contraseña</label>
-        <div class="contenedor-password">
-            <input type="password" id="password" placeholder="Contraseña" autocomplete="current-password" aria-describedby="passwordError" required>
-            <button type="button" class="alternar-password" id="togglePassword" aria-label="Mostrar contraseña" aria-pressed="false">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            </button>
-        </div>
-        <span class="error" id="passwordError" aria-live="polite"></span>
+            <label for="email" class="block Dark:text-gray-900 font-medium mb-2">Correo electrónico</label>
+            <input class="text-dark text-sm gap-x-10 border border-custom rounded-md py-2 px-4 w-full px-4 mt-1 focus:outline-none focus:ring-2 focus:ring-primary"
+                type="email" id="email" placeholder="Tu@correo" autocomplete="email" aria-describedby="emailError"
+                required class="translate-x-10 mt-2">
+            <span class="error" id="emailError" aria-live="polite" mt-4 text-dark text-sm gap-x-10></span>
 
-        <div class="opciones-login">
-            <label class="recordarme">
-                <input type="checkbox" id="rememberMe"> Recordarme
-            </label>
-            <a href="#" class="olvido" onclick="mostrarRecuperarPassword()">¿Olvidaste tu contraseña?</a>
-        </div>
+            <label for="password" class="block Dark:text-gray-900 font-medium mb-2 mt-4 text-dark text-sm gap-x-10">Contraseña</label>
+            <div class="contenedor-password">
+                <input class="border border-custom rounded-md py-2 px-4 w-full px-4focus:outline-none focus:ring-2 focus:ring-primary"
+                    type="password" id="password" placeholder="Contraseña" autocomplete="current-password"
+                    aria-describedby="passwordError" required>
+                <button type="button" class="alternar-password" id="togglePassword" aria-label="Mostrar contraseña"
+                    aria-pressed="false">
+                </button>
+            </div>
+            <span class="error" id="passwordError" aria-live="polite"></span>
 
-        <span class="error" id="loginError" aria-live="assertive"></span>
-        <button id="btnLogin" type="submit">Iniciar sesión</button>
+            <div class="">
+                <label class="recordarme gap-10 py-6 px-4 items-center ">
+                    <input type="checkbox" id="rememberMe"> Recordarme
+                </label>
+                <a href="#" class="olvido" onclick="mostrarRecuperarPassword()">¿Olvidaste tu contraseña?</a>
+            </div>
 
-        <p>
-            ¿No tienes una cuenta?
-            <a href="#" onclick="mostrarCrearCuenta()">Créala</a>
-        </p>
+            <span class="error" id="loginError" aria-live="assertive"></span>
+            <button id="btnLogin" type="submit"class="bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded-md  hover:bg-gray-500 mt-4 text-dark text-sm gap-x-10">Iniciar sesión</button>
 
-    </form>
-<!-- CAMBIAR CONTRASEÑA -->
-    <form class="contenedor oculto" id="cambiarPassword" novalidate>
+            <p class="mt-4 text-dark text-sm gap-x-10 items-center translate-x-20 ">
+                ¿No tienes una cuenta?
+                <a href="#" onclick="mostrarCrearCuenta()">Créala</a>
+            </p>
+
+        </form>
+    </div>
+    <!-- CAMBIAR CONTRASEÑA -->
+    <div class="w-50 m-100 p-px-7 flex flex-col justify-content-center min-h-screen items-center max-w-px-1200">
 
         <img src="logo.png" class="logo" alt="Logo Arichoc">
 
@@ -56,18 +82,26 @@
 
         <label for="pwdActual">Contraseña actual</label>
         <div class="contenedor-password">
-            <input type="password" id="pwdActual" placeholder="Contraseña actual" autocomplete="current-password" aria-describedby="pwdActualError" required>
+            <input type="password" id="pwdActual" placeholder="Contraseña actual" autocomplete="current-password"
+                aria-describedby="pwdActualError" required>
             <button type="button" class="alternar-password" id="togglePwdActual" aria-label="Mostrar contraseña">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
             </button>
         </div>
         <span class="error" id="pwdActualError" aria-live="polite"></span>
 
         <label for="pwdNueva">Nueva contraseña</label>
         <div class="contenedor-password">
-            <input type="password" id="pwdNueva" placeholder="Nueva contraseña" autocomplete="new-password" aria-describedby="pwdNuevaError" required>
+            <input type="password" id="pwdNueva" placeholder="Nueva contraseña" autocomplete="new-password"
+                aria-describedby="pwdNuevaError" required>
             <button type="button" class="alternar-password" id="togglePwdNueva" aria-label="Mostrar contraseña">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
             </button>
         </div>
         <div class="fortaleza-password" id="passwordStrengthCambio" aria-live="polite"></div>
@@ -75,9 +109,13 @@
 
         <label for="pwdConfirmar">Confirmar nueva contraseña</label>
         <div class="contenedor-password">
-            <input type="password" id="pwdConfirmar" placeholder="Confirmar nueva contraseña" autocomplete="new-password" aria-describedby="pwdConfirmarError" required>
+            <input type="password" id="pwdConfirmar" placeholder="Confirmar nueva contraseña"
+                autocomplete="new-password" aria-describedby="pwdConfirmarError" required>
             <button type="button" class="alternar-password" id="togglePwdConfirmar" aria-label="Mostrar contraseña">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
             </button>
         </div>
         <span class="error" id="pwdConfirmarError" aria-live="polite"></span>
@@ -89,9 +127,9 @@
             <a href="#" onclick="mostrarLogin()">Volver al login</a>
         </p>
 
-    </form>
+    </div>
     <!-- RECUPERAR CONTRASEÑA -->
-    <form class="contenedor oculto" id="recuperarPassword" novalidate>
+    <div class="w-50 m-100 p-px-7 flex flex-col justify-content-center min-h-screen items-center max-w-px-1200">
 
         <img src="logo.png" class="logo" alt="Logo Arichoc">
         <h1>Recuperar contraseña</h1>
@@ -101,7 +139,8 @@
             <p class="info-cambio">Ingresa tu email para verificar tu cuenta</p>
 
             <label for="recEmail">Correo electrónico</label>
-            <input type="email" id="recEmail" placeholder="Tu@correo" autocomplete="email" aria-describedby="recEmailError" required>
+            <input type="email" id="recEmail" placeholder="Tu@correo" autocomplete="email"
+                aria-describedby="recEmailError" required>
             <span class="error" id="recEmailError" aria-live="polite"></span>
 
             <button id="btnVerificarEmail" type="button">Verificar cuenta</button>
@@ -114,9 +153,14 @@
 
             <label for="recNuevaPassword">Nueva contraseña</label>
             <div class="contenedor-password">
-                <input type="password" id="recNuevaPassword" placeholder="Nueva contraseña" autocomplete="new-password" aria-describedby="recNuevaPasswordError" required>
-                <button type="button" class="alternar-password" id="toggleRecNuevaPassword" aria-label="Mostrar contraseña">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <input type="password" id="recNuevaPassword" placeholder="Nueva contraseña" autocomplete="new-password"
+                    aria-describedby="recNuevaPasswordError" required>
+                <button type="button" class="alternar-password" id="toggleRecNuevaPassword"
+                    aria-label="Mostrar contraseña">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
                 </button>
             </div>
             <div class="fortaleza-password" id="passwordStrengthRecuperar" aria-live="polite"></div>
@@ -124,9 +168,14 @@
 
             <label for="recConfirmarPassword">Confirmar nueva contraseña</label>
             <div class="contenedor-password">
-                <input type="password" id="recConfirmarPassword" placeholder="Confirmar nueva contraseña" autocomplete="new-password" aria-describedby="recConfirmarPasswordError" required>
-                <button type="button" class="alternar-password" id="toggleRecConfirmarPassword" aria-label="Mostrar contraseña">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <input type="password" id="recConfirmarPassword" placeholder="Confirmar nueva contraseña"
+                    autocomplete="new-password" aria-describedby="recConfirmarPasswordError" required>
+                <button type="button" class="alternar-password" id="toggleRecConfirmarPassword"
+                    aria-label="Mostrar contraseña">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
                 </button>
             </div>
             <span class="error" id="recConfirmarPasswordError" aria-live="polite"></span>
@@ -138,32 +187,40 @@
         <p>
             <a href="#" onclick="mostrarLogin()">Volver al login</a>
         </p>
-    </form>
+    </div>
 
     <!-- CREAR CUENTA -->
-    <form class="contenedor oculto" id="crearCuenta" novalidate>
+    <div class="w-50 m-100 p-px-7 flex flex-col justify-content-center min-h-screen items-center max-w-px-1200">
 
         <img src="logo.png" class="logo" alt="Logo Arichoc">
 
         <h1>Crear cuenta</h1>
 
         <label for="regNombre">Nombre</label>
-        <input type="text" id="regNombre" placeholder="Nombre" autocomplete="given-name" aria-describedby="regNombreError" required>
+        <input type="text" id="regNombre" placeholder="Nombre" autocomplete="given-name"
+            aria-describedby="regNombreError" required>
         <span class="error" id="regNombreError" aria-live="polite"></span>
 
         <label for="regApellido">Apellido</label>
-        <input type="text" id="regApellido" placeholder="Apellido" autocomplete="family-name" aria-describedby="regApellidoError" required>
+        <input type="text" id="regApellido" placeholder="Apellido" autocomplete="family-name"
+            aria-describedby="regApellidoError" required>
         <span class="error" id="regApellidoError" aria-live="polite"></span>
 
         <label for="regEmail">Correo electrónico</label>
-        <input type="email" id="regEmail" placeholder="name@gmail.com" autocomplete="email" aria-describedby="regEmailError" required>
+        <input type="email" id="regEmail" placeholder="name@gmail.com" autocomplete="email"
+            aria-describedby="regEmailError" required>
         <span class="error" id="regEmailError" aria-live="polite"></span>
 
         <label for="regPassword">Contraseña</label>
         <div class="contenedor-password">
-            <input type="password" id="regPassword" placeholder="Contraseña" autocomplete="new-password" aria-describedby="regPasswordError" required>
-            <button type="button" class="alternar-password" id="toggleRegPassword" aria-label="Mostrar contraseña" aria-pressed="false">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <input type="password" id="regPassword" placeholder="Contraseña" autocomplete="new-password"
+                aria-describedby="regPasswordError" required>
+            <button type="button" class="alternar-password" id="toggleRegPassword" aria-label="Mostrar contraseña"
+                aria-pressed="false">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
             </button>
         </div>
         <div class="fortaleza-password" id="passwordStrength" aria-live="polite"></div>
@@ -171,9 +228,14 @@
 
         <label for="regConfirmPassword">Confirmar contraseña</label>
         <div class="contenedor-password">
-            <input type="password" id="regConfirmPassword" placeholder="Confirmar contraseña" autocomplete="new-password" aria-describedby="regConfirmError" required>
-            <button type="button" class="alternar-password" id="toggleConfirmPassword" aria-label="Mostrar contraseña" aria-pressed="false">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <input type="password" id="regConfirmPassword" placeholder="Confirmar contraseña"
+                autocomplete="new-password" aria-describedby="regConfirmError" required>
+            <button type="button" class="alternar-password" id="toggleConfirmPassword" aria-label="Mostrar contraseña"
+                aria-pressed="false">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
             </button>
         </div>
         <span class="error" id="regConfirmError" aria-live="polite"></span>
@@ -188,7 +250,7 @@
 
     </form>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
