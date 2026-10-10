@@ -1,35 +1,31 @@
-function mostrarCrearCuenta() {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("crearCuenta").style.display = "block";
-    document.getElementById("regNombre").focus();
-    limpiarErrores();
-}
 
-function mostrarLogin() {
-    document.getElementById("crearCuenta").style.display = "none";
-    document.getElementById("cambiarPassword").style.display = "none";
-    document.getElementById("recuperarPassword").style.display = "none";
-    document.getElementById("login").style.display = "block";
-    document.getElementById("email").focus();
-    limpiarErrores();
-}
+function mostrarToast(mensaje, tipo = 'exito') {
+    const toast = document.getElementById('toastNotificacion');
+    const msgEl = document.getElementById('toastMensaje');
+    const iconEl = document.getElementById('toastIcono');
 
-function mostrarCambiarPassword() {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("crearCuenta").style.display = "none";
-    document.getElementById("cambiarPassword").style.display = "block";
-    document.getElementById("pwdActual").focus();
-    limpiarErrores();
+    msgEl.textContent = mensaje;
+    if (tipo === 'exito') {
+        iconEl.textContent = '✓';
+        iconEl.className = 'text-success text-lg';
+    } else {
+        iconEl.textContent = '✕';
+        iconEl.className = 'text-error text-lg';
+    }
+
+    toast.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
+    }, 3500);
 }
 
 function obtenerUsuarios() {
     const usuarios = localStorage.getItem("usuarios");
     if (!usuarios) return [];
-    try {
-        return JSON.parse(usuarios);
-    } catch {
-        return [];
-    }
+    try { return JSON.parse(usuarios); } catch { return []; }
 }
 
 function guardarUsuario(usuario) {
@@ -41,17 +37,6 @@ function guardarUsuario(usuario) {
 function buscarUsuario(email) {
     const usuarios = obtenerUsuarios();
     return usuarios.find(u => u.email.toLowerCase() === email.toLowerCase());
-}
-
-function actualizarPasswordUsuario(email, nuevoPasswordHash) {
-    const usuarios = obtenerUsuarios();
-    const index = usuarios.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
-    if (index !== -1) {
-        usuarios[index].password = nuevoPasswordHash;
-        localStorage.setItem("usuarios", JSON.stringify(usuarios));
-        return true;
-    }
-    return false;
 }
 
 function validarEmail(email) {
@@ -76,41 +61,18 @@ function validarFortalezaPassword(password) {
     return puntuacion;
 }
 
-function mostrarFortaleza(password) {
-    const elementoFortaleza = document.getElementById("passwordStrength");
-    if (!elementoFortaleza) return;
+function renderizarBarraFortaleza(elementoId, password) {
+    const elemento = document.getElementById(elementoId);
+    if (!elemento) return;
     const puntuacion = validarFortalezaPassword(password);
     const etiquetas = ["Muy débil", "Débil", "Media", "Fuerte", "Muy fuerte"];
     const colores = ["#dc3545", "#fd7e14", "#ffc107", "#20c997", "#28a745"];
-    if (password.length === 0 || puntuacion === 0) {
-        elementoFortaleza.textContent = "";
-        return;
-    }
-    const barra = document.createElement("div");
-    barra.className = "barra-fortaleza";
-    const relleno = document.createElement("div");
-    relleno.className = "relleno-fortaleza";
-    relleno.style.width = `${(puntuacion / 5) * 100}%`;
-    relleno.style.background = colores[puntuacion - 1];
-    barra.appendChild(relleno);
-    const texto = document.createElement("span");
-    texto.style.cssText = `color:${colores[puntuacion - 1]}; font-size:12px;`;
-    texto.textContent = etiquetas[puntuacion - 1];
-    elementoFortaleza.innerHTML = "";
-    elementoFortaleza.appendChild(barra);
-    elementoFortaleza.appendChild(texto);
-}
 
-function mostrarFortalezaCambio(password) {
-    const elementoFortaleza = document.getElementById("passwordStrengthCambio");
-    if (!elementoFortaleza) return;
-    const puntuacion = validarFortalezaPassword(password);
-    const etiquetas = ["Muy débil", "Débil", "Media", "Fuerte", "Muy fuerte"];
-    const colores = ["#dc3545", "#fd7e14", "#ffc107", "#20c997", "#28a745"];
     if (password.length === 0 || puntuacion === 0) {
-        elementoFortaleza.textContent = "";
+        elemento.innerHTML = "";
         return;
     }
+
     const barra = document.createElement("div");
     barra.className = "barra-fortaleza";
     const relleno = document.createElement("div");
@@ -118,12 +80,14 @@ function mostrarFortalezaCambio(password) {
     relleno.style.width = `${(puntuacion / 5) * 100}%`;
     relleno.style.background = colores[puntuacion - 1];
     barra.appendChild(relleno);
+
     const texto = document.createElement("span");
-    texto.style.cssText = `color:${colores[puntuacion - 1]}; font-size:12px;`;
+    texto.style.cssText = `color:${colores[puntuacion - 1]}; font-size:12px; font-weight:600;`;
     texto.textContent = etiquetas[puntuacion - 1];
-    elementoFortaleza.innerHTML = "";
-    elementoFortaleza.appendChild(barra);
-    elementoFortaleza.appendChild(texto);
+
+    elemento.innerHTML = "";
+    elemento.appendChild(barra);
+    elemento.appendChild(texto);
 }
 
 function mostrarError(id, mensaje) {
@@ -144,7 +108,7 @@ function establecerCargando(boton, cargando) {
     if (cargando) {
         boton.disabled = true;
         boton.dataset.textoOriginal = boton.textContent;
-        boton.textContent = "Cargando...";
+        boton.textContent = "Procesando...";
     } else {
         boton.disabled = false;
         boton.textContent = boton.dataset.textoOriginal || boton.textContent;
@@ -163,33 +127,35 @@ function alternarPassword(inputId, toggleId) {
     }
 }
 
+function mostrarCrearCuenta() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("crearCuenta").style.display = "block";
+    document.getElementById("regNombre").focus();
+    limpiarErrores();
+}
+
+function mostrarLogin() {
+    document.getElementById("crearCuenta").style.display = "none";
+    document.getElementById("login").style.display = "block";
+    document.getElementById("email").focus();
+    limpiarErrores();
+}
+
 function obtenerIntentosFallidos() {
     const data = localStorage.getItem("intentosFallidos");
     if (!data) return { count: 0, ultimoIntento: 0 };
-    try {
-        return JSON.parse(data);
-    } catch {
-        return { count: 0, ultimoIntento: 0 };
-    }
-}
-
-function guardarIntentosFallidos(count, ultimoIntento = Date.now()) {
-    localStorage.setItem("intentosFallidos", JSON.stringify({ count, ultimoIntento }));
-}
-
-function resetearIntentosFallidos() {
-    localStorage.removeItem("intentosFallidos");
+    try { return JSON.parse(data); } catch { return { count: 0, ultimoIntento: 0 }; }
 }
 
 function estaBloqueado() {
     const { count, ultimoIntento } = obtenerIntentosFallidos();
     if (count >= 5) {
-        const cincoMinutos = 5 * 60 * 1000;
-        if (Date.now() - ultimoIntento < cincoMinutos) {
-            const segundosRestantes = Math.ceil((cincoMinutos - (Date.now() - ultimoIntento)) / 1000);
-            return { bloqueado: true, segundos: segundosRestantes };
+        const cincoMin = 5 * 60 * 1000;
+        if (Date.now() - ultimoIntento < cincoMin) {
+            const segs = Math.ceil((cincoMin - (Date.now() - ultimoIntento)) / 1000);
+            return { bloqueado: true, segundos: segs };
         } else {
-            resetearIntentosFallidos();
+            localStorage.removeItem("intentosFallidos");
         }
     }
     return { bloqueado: false, segundos: 0 };
@@ -197,117 +163,7 @@ function estaBloqueado() {
 
 function registrarIntentoFallido() {
     const { count } = obtenerIntentosFallidos();
-    guardarIntentosFallidos(count + 1);
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const debeCambiarPassword = urlParams.get("cambiar") === "1";
-    const estaLogueado = !!localStorage.getItem("usuarioEmail");
-
-    if (debeCambiarPassword && estaLogueado) {
-        mostrarCambiarPassword();
-    } else {
-        const emailGuardado = localStorage.getItem("rememberEmail");
-        if (emailGuardado) {
-            document.getElementById("email").value = emailGuardado;
-            document.getElementById("rememberMe").checked = true;
-        }
-        document.getElementById("email").focus();
-    }
-
-    document.getElementById("togglePassword").addEventListener("click", () => alternarPassword("password", "togglePassword"));
-    document.getElementById("toggleRegPassword").addEventListener("click", () => alternarPassword("regPassword", "toggleRegPassword"));
-    document.getElementById("toggleConfirmPassword").addEventListener("click", () => alternarPassword("regConfirmPassword", "toggleConfirmPassword"));
-    document.getElementById("togglePwdActual").addEventListener("click", () => alternarPassword("pwdActual", "togglePwdActual"));
-    document.getElementById("togglePwdNueva").addEventListener("click", () => alternarPassword("pwdNueva", "togglePwdNueva"));
-    document.getElementById("togglePwdConfirmar").addEventListener("click", () => alternarPassword("pwdConfirmar", "togglePwdConfirmar"));
-    document.getElementById("toggleRecNuevaPassword").addEventListener("click", () => alternarPassword("recNuevaPassword", "toggleRecNuevaPassword"));
-    document.getElementById("toggleRecConfirmarPassword").addEventListener("click", () => alternarPassword("recConfirmarPassword", "toggleRecConfirmarPassword"));
-
-    document.getElementById("btnVerificarEmail").addEventListener("click", manejarVerificarEmail);
-    document.getElementById("btnActualizarPassword").addEventListener("click", manejarActualizarPassword);
-
-    document.getElementById("regPassword").addEventListener("input", (e) => {
-        mostrarFortaleza(e.target.value);
-        limpiarError("regPasswordError");
-    });
-
-    document.getElementById("pwdNueva").addEventListener("input", (e) => {
-        mostrarFortalezaCambio(e.target.value);
-        limpiarError("pwdNuevaError");
-    });
-
-    document.getElementById("recNuevaPassword").addEventListener("input", (e) => {
-        mostrarFortalezaRecuperar(e.target.value);
-        limpiarError("recNuevaPasswordError");
-    });
-
-    ["regNombre", "regApellido", "regEmail", "regConfirmPassword"].forEach(id => {
-        document.getElementById(id).addEventListener("input", () => limpiarError(id + "Error"));
-    });
-
-    ["pwdActual", "pwdNueva", "pwdConfirmar"].forEach(id => {
-        document.getElementById(id).addEventListener("input", () => limpiarError(id + "Error"));
-    });
-
-    ["recEmail"].forEach(id => {
-        document.getElementById(id).addEventListener("input", () => limpiarError(id + "Error"));
-    });
-
-    ["recNuevaPassword", "recConfirmarPassword"].forEach(id => {
-        document.getElementById(id).addEventListener("input", () => limpiarError(id + "Error"));
-    });
-
-    document.getElementById("email").addEventListener("input", () => limpiarError("emailError"));
-    document.getElementById("password").addEventListener("input", () => limpiarError("passwordError"));
-    document.getElementById("loginError").textContent = "";
-
-    document.getElementById("login").addEventListener("submit", manejarLogin);
-    document.getElementById("crearCuenta").addEventListener("submit", manejarRegistro);
-    document.getElementById("cambiarPassword").addEventListener("submit", manejarCambiarPassword);
-    document.getElementById("recuperarPassword").addEventListener("submit", (e) => {
-        e.preventDefault();
-        if (document.getElementById("pasoEmail").style.display !== "none") {
-            manejarVerificarEmail(e);
-        } else {
-            manejarActualizarPassword(e);
-        }
-    });
-});
-
-async function manejarRegistro(e) {
-    e.preventDefault();
-    limpiarErrores();
-
-    const nombre = document.getElementById("regNombre").value.trim();
-    const apellido = document.getElementById("regApellido").value.trim();
-    const email = document.getElementById("regEmail").value.trim().toLowerCase();
-    const password = document.getElementById("regPassword").value;
-    const confirmarPassword = document.getElementById("regConfirmPassword").value;
-    const boton = document.getElementById("btnRegistrar");
-
-    let valido = true;
-
-    if (!nombre) { mostrarError("regNombreError", "Nombre requerido"); valido = false; }
-    if (!apellido) { mostrarError("regApellidoError", "Apellido requerido"); valido = false; }
-    if (!email || !validarEmail(email)) { mostrarError("regEmailError", "Email inválido"); valido = false; }
-    if (!password) { mostrarError("regPasswordError", "Contraseña requerida"); valido = false; }
-    else if (password.length < 8) { mostrarError("regPasswordError", "Mínimo 8 caracteres"); valido = false; }
-    if (password !== confirmarPassword) { mostrarError("regConfirmError", "Las contraseñas no coinciden"); valido = false; }
-
-    if (buscarUsuario(email)) { mostrarError("regEmailError", "Este correo ya está registrado"); valido = false; }
-
-    if (!valido) return;
-
-    establecerCargando(boton, true);
-    setTimeout(async () => {
-        const passwordHash = await hashearPassword(password);
-        guardarUsuario({ nombre, apellido, email, password: passwordHash });
-        establecerCargando(boton, false);
-        alert("Cuenta creada exitosamente");
-        mostrarLogin();
-    }, 500);
+    localStorage.setItem("intentosFallidos", JSON.stringify({ count: count + 1, ultimoIntento: Date.now() }));
 }
 
 async function manejarLogin(e) {
@@ -316,7 +172,7 @@ async function manejarLogin(e) {
 
     const { bloqueado, segundos } = estaBloqueado();
     if (bloqueado) {
-        mostrarError("loginError", `Demasiados intentos. Intenta en ${segundos} segundos.`);
+        mostrarError("loginError", `Demasiados intentos. Espera ${segundos} segundos.`);
         return;
     }
 
@@ -326,10 +182,8 @@ async function manejarLogin(e) {
     const boton = document.getElementById("btnLogin");
 
     let valido = true;
-
-    if (!email || !validarEmail(email)) { mostrarError("emailError", "Email inválido"); valido = false; }
-    if (!password) { mostrarError("passwordError", "Contraseña requerida"); valido = false; }
-
+    if (!email || !validarEmail(email)) { mostrarError("emailError", "Correo no válido"); valido = false; }
+    if (!password) { mostrarError("passwordError", "La contraseña es requerida"); valido = false; }
     if (!valido) return;
 
     establecerCargando(boton, true);
@@ -351,170 +205,83 @@ async function manejarLogin(e) {
             return;
         }
 
-        resetearIntentosFallidos();
-
+        localStorage.removeItem("intentosFallidos");
         if (recordar) {
             localStorage.setItem("rememberEmail", email);
         } else {
             localStorage.removeItem("rememberEmail");
         }
 
-        sessionStorage.setItem("usuario", usuario.nombre + " " + usuario.apellido);
+        const nombreCompleto = `${usuario.nombre} ${usuario.apellido}`.trim();
+        sessionStorage.setItem("usuario", nombreCompleto);
         sessionStorage.setItem("usuarioEmail", usuario.email);
-        localStorage.setItem("usuario", usuario.nombre + " " + usuario.apellido);
+        localStorage.setItem("usuario", nombreCompleto);
         localStorage.setItem("usuarioEmail", usuario.email);
 
         establecerCargando(boton, false);
-        window.location.href = "../index.html";
-    }, 500);
+        mostrarToast("Inicio de sesión exitoso. Redirigiendo...", "exito");
+        setTimeout(() => {
+            window.location.href = window.location.pathname.includes('/login/') ? "../index.html" : "index.html";
+        }, 800);
+    }, 400);
 }
 
-async function manejarCambiarPassword(e) {
+async function manejarRegistro(e) {
     e.preventDefault();
     limpiarErrores();
 
-    const email = localStorage.getItem("usuarioEmail");
-    if (!email) {
-        mostrarError("cambiarPasswordError", "No hay sesión activa");
-        return;
-    }
-
-    const pwdActual = document.getElementById("pwdActual").value;
-    const pwdNueva = document.getElementById("pwdNueva").value;
-    const pwdConfirmar = document.getElementById("pwdConfirmar").value;
-    const boton = document.getElementById("btnCambiarPassword");
+    const nombre = document.getElementById("regNombre").value.trim();
+    const apellido = document.getElementById("regApellido").value.trim();
+    const email = document.getElementById("regEmail").value.trim().toLowerCase();
+    const password = document.getElementById("regPassword").value;
+    const confirmarPassword = document.getElementById("regConfirmPassword").value;
+    const boton = document.getElementById("btnRegistrar");
 
     let valido = true;
+    if (!nombre) { mostrarError("regNombreError", "El nombre es obligatorio"); valido = false; }
+    if (!apellido) { mostrarError("regApellidoError", "El apellido es obligatorio"); valido = false; }
+    if (!email || !validarEmail(email)) { mostrarError("regEmailError", "Formato de correo no válido"); valido = false; }
+    if (!password || password.length < 8) { mostrarError("regPasswordError", "Debe tener al menos 8 caracteres"); valido = false; }
+    if (password !== confirmarPassword) { mostrarError("regConfirmError", "Las contraseñas no coinciden"); valido = false; }
 
-    if (!pwdActual) { mostrarError("pwdActualError", "Contraseña actual requerida"); valido = false; }
-    if (!pwdNueva) { mostrarError("pwdNuevaError", "Nueva contraseña requerida"); valido = false; }
-    else if (pwdNueva.length < 8) { mostrarError("pwdNuevaError", "Mínimo 8 caracteres"); valido = false; }
-    if (pwdNueva !== pwdConfirmar) { mostrarError("pwdConfirmarError", "Las contraseñas no coinciden"); valido = false; }
+    if (buscarUsuario(email)) {
+        mostrarError("regEmailError", "Este correo ya está registrado");
+        valido = false;
+    }
 
     if (!valido) return;
 
     establecerCargando(boton, true);
     setTimeout(async () => {
-        const hashActual = await hashearPassword(pwdActual);
-        const usuario = buscarUsuario(email);
-
-        if (!usuario || usuario.password !== hashActual) {
-            establecerCargando(boton, false);
-            mostrarError("pwdActualError", "Contraseña actual incorrecta");
-            return;
-        }
-
-        const hashNueva = await hashearPassword(pwdNueva);
-        const actualizado = actualizarPasswordUsuario(email, hashNueva);
-
-        if (!actualizado) {
-            establecerCargando(boton, false);
-            mostrarError("cambiarPasswordError", "Error al actualizar");
-            return;
-        }
-
+        const passwordHash = await hashearPassword(password);
+        guardarUsuario({ nombre, apellido, email, password: passwordHash });
         establecerCargando(boton, false);
-        alert("Contraseña cambiada exitosamente");
+        mostrarToast("Cuenta creada exitosamente. Inicia sesión", "exito");
         mostrarLogin();
-    }, 500);
+        document.getElementById("email").value = email;
+    }, 400);
 }
 
-function mostrarRecuperarPassword() {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("crearCuenta").style.display = "none";
-    document.getElementById("cambiarPassword").style.display = "none";
-    document.getElementById("recuperarPassword").style.display = "block";
-    document.getElementById("pasoEmail").style.display = "block";
-    document.getElementById("pasoNuevaPassword").style.display = "none";
-    document.getElementById("recEmail").focus();
-    limpiarErrores();
-}
-
-async function manejarVerificarEmail(e) {
-    e.preventDefault();
-    limpiarErrores();
-
-    const email = document.getElementById("recEmail").value.trim().toLowerCase();
-    const boton = document.getElementById("btnVerificarEmail");
-
-    let valido = true;
-
-    if (!email || !validarEmail(email)) { mostrarError("recEmailError", "Email inválido"); valido = false; }
-
-    if (!valido) return;
-
-    establecerCargando(boton, true);
-    setTimeout(() => {
-        const usuario = buscarUsuario(email);
-        if (!usuario) {
-            establecerCargando(boton, false);
-            mostrarError("recEmailError", "No existe una cuenta con este email");
-            return;
-        }
-
-        document.getElementById("pasoEmail").style.display = "none";
-        document.getElementById("pasoNuevaPassword").style.display = "block";
-        document.getElementById("recNuevaPassword").focus();
-        limpiarErrores();
-        establecerCargando(boton, false);
-    }, 500);
-}
-
-async function manejarActualizarPassword(e) {
-    e.preventDefault();
-    limpiarErrores();
-
-    const email = document.getElementById("recEmail").value.trim().toLowerCase();
-    const password = document.getElementById("recNuevaPassword").value;
-    const confirmar = document.getElementById("recConfirmarPassword").value;
-    const boton = document.getElementById("btnActualizarPassword");
-
-    let valido = true;
-
-    if (!password) { mostrarError("recNuevaPasswordError", "Nueva contraseña requerida"); valido = false; }
-    else if (password.length < 8) { mostrarError("recNuevaPasswordError", "Mínimo 8 caracteres"); valido = false; }
-    if (password !== confirmar) { mostrarError("recConfirmarPasswordError", "Las contraseñas no coinciden"); valido = false; }
-
-    if (!valido) return;
-
-    establecerCargando(boton, true);
-    setTimeout(async () => {
-        const hashNuevo = await hashearPassword(password);
-        const actualizado = actualizarPasswordUsuario(email, hashNuevo);
-
-        if (!actualizado) {
-            establecerCargando(boton, false);
-            mostrarError("actualizarPasswordError", "Error al actualizar");
-            return;
-        }
-
-        establecerCargando(boton, false);
-        alert("Contraseña actualizada exitosamente");
-        mostrarLogin();
-    }, 500);
-}
-
-function mostrarFortalezaRecuperar(password) {
-    const elementoFortaleza = document.getElementById("passwordStrengthRecuperar");
-    if (!elementoFortaleza) return;
-    const puntuacion = validarFortalezaPassword(password);
-    const etiquetas = ["Muy débil", "Débil", "Media", "Fuerte", "Muy fuerte"];
-    const colores = ["#dc3545", "#fd7e14", "#ffc107", "#20c997", "#28a745"];
-    if (password.length === 0 || puntuacion === 0) {
-        elementoFortaleza.textContent = "";
-        return;
+document.addEventListener("DOMContentLoaded", () => {
+    const emailGuardado = localStorage.getItem("rememberEmail");
+    if (emailGuardado) {
+        document.getElementById("email").value = emailGuardado;
+        document.getElementById("rememberMe").checked = true;
     }
-    const barra = document.createElement("div");
-    barra.className = "barra-fortaleza";
-    const relleno = document.createElement("div");
-    relleno.className = "relleno-fortaleza";
-    relleno.style.width = `${(puntuacion / 5) * 100}%`;
-    relleno.style.background = colores[puntuacion - 1];
-    barra.appendChild(relleno);
-    const texto = document.createElement("span");
-    texto.style.cssText = `color:${colores[puntuacion - 1]}; font-size:12px;`;
-    texto.textContent = etiquetas[puntuacion - 1];
-    elementoFortaleza.innerHTML = "";
-    elementoFortaleza.appendChild(barra);
-    elementoFortaleza.appendChild(texto);
-}
+
+    document.getElementById("togglePassword").addEventListener("click", () => alternarPassword("password", "togglePassword"));
+    document.getElementById("toggleRegPassword").addEventListener("click", () => alternarPassword("regPassword", "toggleRegPassword"));
+    document.getElementById("toggleConfirmPassword").addEventListener("click", () => alternarPassword("regConfirmPassword", "toggleConfirmPassword"));
+
+    document.getElementById("regPassword").addEventListener("input", (e) => {
+        renderizarBarraFortaleza("passwordStrength", e.target.value);
+        limpiarError("regPasswordError");
+    });
+
+    ["regNombre", "regApellido", "regEmail", "regConfirmPassword", "email", "password"].forEach(id => {
+        document.getElementById(id).addEventListener("input", () => limpiarError(id + "Error"));
+    });
+
+    document.getElementById("login").addEventListener("submit", manejarLogin);
+    document.getElementById("crearCuenta").addEventListener("submit", manejarRegistro);
+});
