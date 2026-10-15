@@ -1,3 +1,18 @@
+
+const iconoBurger = document.getElementById('icono-burger')
+const nav = document.getElementById('nav')
+const opcionesHeader = document.getElementById('opciones-header')
+
+iconoBurger.addEventListener('click', () => {
+    
+    nav.classList.toggle('flex')
+    nav.classList.toggle('hidden')
+
+    opcionesHeader.classList.toggle('flex')
+    opcionesHeader.classList.toggle('hidden')
+
+})
+
 // Scroll del carrusel
 function desplazarCarrusel(direccion) {
     const carrusel = document.getElementById('carrusel');
