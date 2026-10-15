@@ -116,7 +116,7 @@ function configurarDropdownUsuario() {
     if (botonCambiarPassword) {
         botonCambiarPassword.addEventListener("click", () => {
             dropdownUsuario.classList.remove("mostrar");
-            window.location.href = "login/login.html?cambiar=1";
+            window.location.href = "login/contraseña.html?cambiar=1";
         });
     }
 }
